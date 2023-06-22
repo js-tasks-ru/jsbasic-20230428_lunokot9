@@ -3,18 +3,26 @@ import createElement from '../../assets/lib/create-element.js';
 export default class ProductCard {
     elem = null;
 
-    #name = '';
-    #price = '';
-    #category = '';
-    #image = '';
-    #id = '';
+    name = '';
+    price = '';
+    category = '';
+    image = '';
+    id = '';
+
+    nuts = '';
+    vegeterian = '';
+    spiciness = '';
 
     constructor(product) {
-        this.#name = product.name;
-        this.#price = product.price;
-        this.#category = product.category;
-        this.#image = product.image;
-        this.#id = product.id;
+        this.name = product.name;
+        this.price = product.price;
+        this.category = product.category;
+        this.image = product.image;
+        this.id = product.id;
+
+        this.nuts = product.nuts || false;
+        this.vegeterian = product.vegeterian || false;
+        this.spiciness = product.spiciness || 0;
 
         this.elem = this.#render();
     }
@@ -28,7 +36,7 @@ export default class ProductCard {
 
     #productAdd = () => {
         this.elem.dispatchEvent(new CustomEvent("product-add", {
-            detail: this.#id,
+            detail: this.id,
             bubbles: true
         }));
     }
@@ -36,11 +44,11 @@ export default class ProductCard {
     #template() {
         return `<div class="card">
             <div class="card__top">
-                <img src="/assets/images/products/${this.#image}" class="card__image" alt="product">
-                <span class="card__price">€${Number(this.#price).toFixed(2)}</span>
+                <img src="/assets/images/products/${this.image}" class="card__image" alt="product">
+                <span class="card__price">€${Number(this.price).toFixed(2)}</span>
             </div>
             <div class="card__body">
-                <div class="card__title">${this.#name}</div>
+                <div class="card__title">${this.name}</div>
                 <button type="button" class="card__button">
                     <img src="/assets/images/icons/plus-icon.svg" alt="icon">
                 </button>
