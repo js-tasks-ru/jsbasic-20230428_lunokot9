@@ -1,6 +1,8 @@
 import createElement from '../../assets/lib/create-element.js';
 
 export default class CartIcon {
+  #cartTopOffset = null;
+
   constructor() {
     this.render();
 
@@ -39,6 +41,21 @@ export default class CartIcon {
   }
 
   updatePosition() {
-    // ваш код ...
+    if (!this.elem.offsetWidth) return;
+
+    if (!this.#cartTopOffset) this.#cartTopOffset = this.elem.getBoundingClientRect().top + window.scrollY;
+    let isMobile = document.documentElement.clientWidth <= 767;
+
+    if (window.scrollY > this.#cartTopOffset && !isMobile) {
+        // let cartLeftEdge = document.documentElement.clientWidth - document.querySelector('.container').getBoundingClientRect().right - 20 - this.elem.getBoundingClientRect().width,
+            // cartRightEdge = 10;
+        // this.elem.style.cssText = `position: fixed; top: 50px; right: ${Math.max(cartLeftEdge, cartRightEdge)}px; z-index: 500;`;
+
+        let leftIndent = Math.min(document.querySelector('.container').getBoundingClientRect().right + 20, document.documentElement.clientWidth - this.elem.offsetWidth - 10);
+        this.elem.style.cssText = `position: fixed; top: 50px; right: 10px; left: ${leftIndent}px; z-index: 500;`;
+    } else {
+        this.elem.style.cssText = '';
+    }
+    
   }
 }
